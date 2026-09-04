@@ -1,0 +1,163 @@
+﻿@{
+    ViewData["Title"] = "Inicio";
+}
+
+<!-- Sección principal - Flexbox -->
+<section class="hero-biblioteca">
+
+    <div class="hero-texto">
+        <h1>Bienvenido a BibliotecaMVC</h1>
+
+        <p>
+            Explora nuestra biblioteca virtual y consulta información sobre
+            libros y autores de una manera sencilla y organizada.
+        </p>
+
+        <div class="hero-acciones">
+            <a asp-controller="Libros"
+               asp-action="Index"
+               class="btn btn-primary">
+                Explorar libros
+            </a>
+
+            <a asp-controller="Autores"
+               asp-action="Index"
+               class="btn btn-outline-primary">
+                Conocer autores
+            </a>
+        </div>
+    </div>
+
+    <div class="hero-imagen">
+        <img src="https://picsum.photos/700/400"
+             alt="Imagen representativa de una biblioteca">
+    </div>
+
+</section>
+
+
+
+<section class="biblioteca-secciones">
+
+    <div class="seccion-titulo">
+        <h2>Explora nuestra Biblioteca Virtual</h2>
+        <p>Accede a las principales secciones del sistema.</p>
+    </div>
+
+    <div class="grid-biblioteca">
+
+        <article class="biblioteca-card">
+            <h3>Libros</h3>
+            <p>
+                Consulta y administra la información de los libros disponibles.
+            </p>
+
+            <a asp-controller="Libros"
+               asp-action="Index"
+               class="btn btn-primary">
+                Ver libros
+            </a>
+        </article>
+
+        <article class="biblioteca-card">
+            <h3>Autores</h3>
+            <p>
+                Conoce y consulta la información de los autores registrados.
+            </p>
+
+            <a asp-controller="Autores"
+               asp-action="Index"
+               class="btn btn-primary">
+                Ver autores
+            </a>
+        </article>
+
+        <article class="biblioteca-card">
+            <h3>Acerca de</h3>
+            <p>
+                Conoce más sobre BibliotecaMVC y el propósito de este sistema.
+            </p>
+
+            <a asp-controller="Home"
+               asp-action="AcercaDe"
+               class="btn btn-primary">
+                Conocer más
+            </a>
+        </article>
+
+    </div>
+</section>
+
+
+
+<section class="preguntas-frecuentes">
+
+    <div class="seccion-titulo">
+        <h2>Preguntas frecuentes</h2>
+        <p>Conoce más sobre el funcionamiento de BibliotecaMVC.</p>
+    </div>
+
+    <div class="accordion" id="accordionBiblioteca">
+
+        <div class="accordion-item">
+            <h2 class="accordion-header" id="preguntaUno">
+                <button class="accordion-button"
+                        type="button"
+                        data-bs-toggle="collapse"
+                        data-bs-target="#respuestaUno">
+                    ¿Qué puedo encontrar en BibliotecaMVC?
+                </button>
+            </h2>
+
+            <div id="respuestaUno"
+                 class="accordion-collapse collapse show"
+                 data-bs-parent="#accordionBiblioteca">
+                <div class="accordion-body">
+                    Puedes consultar información sobre los libros y autores
+                    registrados en el sistema.
+                </div>
+            </div>
+        </div>
+
+        <div class="accordion-item">
+            <h2 class="accordion-header" id="preguntaDos">
+                <button class="accordion-button collapsed"
+                        type="button"
+                        data-bs-toggle="collapse"
+                        data-bs-target="#respuestaDos">
+                    ¿Cómo puedo consultar los libros?
+                </button>
+            </h2>
+
+            <div id="respuestaDos"
+                 class="accordion-collapse collapse"
+                 data-bs-parent="#accordionBiblioteca">
+                <div class="accordion-body">
+                    Puedes ingresar a la sección Libros desde el menú principal
+                    o utilizando los botones disponibles en la página de inicio.
+                </div>
+            </div>
+        </div>
+
+        <div class="accordion-item">
+            <h2 class="accordion-header" id="preguntaTres">
+                <button class="accordion-button collapsed"
+                        type="button"
+                        data-bs-toggle="collapse"
+                        data-bs-target="#respuestaTres">
+                    ¿Dónde puedo conocer más sobre el sistema?
+                </button>
+            </h2>
+
+            <div id="respuestaTres"
+                 class="accordion-collapse collapse"
+                 data-bs-parent="#accordionBiblioteca">
+                <div class="accordion-body">
+                    Puedes visitar la sección Acerca de para conocer el propósito,
+                    misión y visión de BibliotecaMVC.
+                </div>
+            </div>
+        </div>
+
+    </div>
+</section>

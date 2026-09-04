@@ -1,0 +1,246 @@
+html {
+  font-size: 14px;
+}
+
+@media (min-width: 768px) {
+  html {
+    font-size: 16px;
+  }
+}
+
+.btn:focus, .btn:active:focus, .btn-link.nav-link:focus, .form-control:focus, .form-check-input:focus {
+  box-shadow: 0 0 0 0.1rem white, 0 0 0 0.25rem #258cfb;
+}
+
+html {
+  position: relative;
+  min-height: 100%;
+}
+
+body {
+  margin-bottom: 60px;
+}
+
+.form-floating > .form-control-plaintext::placeholder, .form-floating > .form-control::placeholder {
+  color: var(--bs-secondary-color);
+  text-align: end;
+}
+
+.form-floating > .form-control-plaintext:focus::placeholder, .form-floating > .form-control:focus::placeholder {
+  text-align: start;
+}
+
+   
+
+.about-header {
+    background: #1f4e78;
+    color: white;
+    text-align: center;
+    padding: 40px 20px;
+    border-radius: 10px;
+    margin-bottom: 30px;
+}
+
+    .about-header h1 {
+        margin-bottom: 10px;
+    }
+
+    .about-header p {
+        margin-bottom: 0;
+    }
+
+.about-container {
+    max-width: 1100px;
+    margin: auto;
+    padding: 20px;
+}
+
+.about-content {
+    display: flex;
+    gap: 30px;
+    margin-bottom: 30px;
+}
+
+    .about-content article,
+    .about-aside {
+        flex: 1;
+        padding: 25px;
+        background: #f8f9fa;
+        border-radius: 10px;
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    }
+
+    .about-content h2 {
+        color: #1f4e78;
+    }
+
+.about-aside {
+    background: #eaf2f8;
+}
+
+.about-image {
+    width: 100%;
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+}
+
+.about-figure-section figure {
+    margin: 0;
+}
+
+.about-figure-section figcaption {
+    text-align: center;
+    margin-top: 10px;
+    font-style: italic;
+    color: #6c757d;
+}
+
+
+@media (max-width: 768px) {
+    .about-content {
+        flex-direction: column;
+    }
+
+    .about-header {
+        padding: 30px 15px;
+    }
+}
+
+/* FLEXBOX */
+.hero-biblioteca {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 40px;
+    max-width: 1100px;
+    margin: 40px auto;
+    padding: 30px;
+}
+
+.hero-texto {
+    flex: 1;
+}
+
+    .hero-texto h1 {
+        color: #1f4e78;
+        margin-bottom: 20px;
+    }
+
+    .hero-texto p {
+        font-size: 1.1rem;
+        line-height: 1.7;
+    }
+
+.hero-imagen {
+    flex: 1;
+}
+
+    .hero-imagen img {
+        width: 100%;
+        border-radius: 10px;
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+    }
+
+.hero-acciones {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 15px;
+    margin-top: 25px;
+}
+
+
+
+.biblioteca-secciones {
+    max-width: 1100px;
+    margin: 50px auto;
+    padding: 20px;
+}
+
+.seccion-titulo {
+    text-align: center;
+    margin-bottom: 30px;
+}
+
+.grid-biblioteca {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 25px;
+}
+
+.biblioteca-card,
+.info-card {
+    padding: 25px;
+    background: #f8f9fa;
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+    .biblioteca-card h3,
+    .info-card h2 {
+        color: #1f4e78;
+    }
+
+.biblioteca-card {
+    display: flex;
+    flex-direction: column;
+}
+
+    .biblioteca-card .btn {
+        margin-top: auto;
+        align-self: flex-start;
+    }
+
+
+
+.about-content {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 25px;
+    margin-bottom: 30px;
+}
+
+
+
+.preguntas-frecuentes {
+    max-width: 1100px;
+    margin: 50px auto;
+    padding: 20px;
+}
+
+
+/* RESPONSIVIDAD */
+@media (max-width: 900px) {
+
+    .grid-biblioteca {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .about-content {
+        grid-template-columns: 1fr;
+    }
+}
+
+@media (max-width: 768px) {
+
+    .hero-biblioteca {
+        flex-direction: column;
+        padding: 20px;
+    }
+
+    .hero-texto,
+    .hero-imagen {
+        width: 100%;
+    }
+
+    .grid-biblioteca {
+        grid-template-columns: 1fr;
+    }
+
+    .hero-acciones {
+        flex-direction: column;
+    }
+
+        .hero-acciones .btn {
+            width: 100%;
+        }
+}
