@@ -3,12 +3,11 @@ using BibliotecaMVC.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
-
+builder.Services.AddControllersWithViews();
 builder.Services.AddSingleton<IRepositorioLibro, RepositorioMemoria>();
+
 builder.Services.AddScoped<IAutorService, AutorServicePrueba>();
 
-
-builder.Services.AddControllersWithViews();
 
 var app = builder.Build();
 

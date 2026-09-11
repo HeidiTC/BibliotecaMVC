@@ -4,6 +4,6 @@ namespace BibliotecaMVC.Repositorios
 {
     public interface IRepositorioLibro
     {
-        List<Libro> ObtenerTodos();
+        IEnumerable<Libro> ObtenerTodos();
     }
 }

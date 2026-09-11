@@ -1,7 +1,7 @@
-﻿@model List<BibliotecaMVC.Models.Libro>
+﻿@model IEnumerable<BibliotecaMVC.Models.Libro>
 
 @{
-    ViewData["Title"] = "Libros";
+    
 }
 
 <h2>Catálogo de Libros</h2>
@@ -38,15 +38,15 @@
 
                     @if (libro.Disponible)
                     {
-                        <span class="badge bg-success">
+                        <spam class="badge bg-success">
                             Disponible
-                        </span>
+                        </spam>
                     }
                     else
                     {
-                        <span class="badge bg-danger">
+                        <spam class="badge bg-danger">
                             Prestado
-                        </span>
+                        </spam>
                     }
 
                 </td>

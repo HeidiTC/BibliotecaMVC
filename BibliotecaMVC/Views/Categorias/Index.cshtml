@@ -1,0 +1,72 @@
+﻿@model IEnumerable<BibliotecaMVC.Models.Categoria>
+
+@{
+    ViewData["Title"] = "Categorias";
+}
+
+<div class="d-flex justify-content-between align-items-center mb-3">
+    <h2>Listado de Categorias</h2>
+</div>
+
+<a class="btn btn-primary" asp-controller="Categorias" asp-action="Create">
+    Agregar Categoria
+</a>
+
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>Nombre</th>
+            <th>Descripcion</th>
+            <th>Acciones</th>
+        </tr>
+    </thead>
+
+    <tbody>
+        @foreach (var categoria in Model)
+        {
+            <tr>
+                <td>@categoria.ID</td>
+                <td>@categoria.Nombre</td>
+                <td>@categoria.Descripcion</td>
+                <td>
+                    <a asp-action="Edit" asp-route-id="@categoria.ID">
+                        Editar
+                    </a>
+
+                    <form asp-action="Delete"
+                          asp-route-id="@categoria.ID"
+                          method="post"
+                          style="display:inline;"
+                          onsubmit="return confirmarEliminacion();">
+
+                        <button type="submit" class="btn btn-danger btn-sm">
+                            Eliminar
+                        </button>
+                    </form>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+@section Scripts {
+    @if (TempData["SuccessMessage"] != null)
+    {
+        <script>
+            Swal.fire({
+                icon: 'success',
+                title: 'Éxito',
+                text: @Html.Raw(System.Text.Json.JsonSerializer.Serialize(TempData["SuccessMessage"])),
+                timer: 2000,
+                showConfirmButton: false
+            });
+        </script>
+    }
+
+    <script>
+        function confirmarEliminacion() {
+            return confirm("¿Está seguro de eliminar esta categoría?");
+        }
+    </script>
+}
