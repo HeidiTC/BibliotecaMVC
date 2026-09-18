@@ -1,12 +1,14 @@
 ﻿@model IEnumerable<BibliotecaMVC.Models.Libro>
 
 @{
-    
+    ViewData["Title"] = "Catálogo de Libros";
 }
 
-<h2>Catálogo de Libros</h2>
+<h1>Catálogo de Libros</h1>
 
-<table class="table table-striped">
+<a asp-action="Create" class="btn btn-success mb-3">Nuevo Libro</a>
+
+<table class="table">
     <thead>
         <tr>
             <th>ID</th>
@@ -17,43 +19,26 @@
             <th>Estado</th>
         </tr>
     </thead>
-
     <tbody>
-
         @foreach (var libro in Model)
         {
             <tr>
-
                 <td>@libro.ID</td>
-
                 <td>@libro.Titulo</td>
-
                 <td>@libro.Autor</td>
-
                 <td>@libro.Categoria</td>
-
-                <td>$ @libro.Precio</td>
-
+                <td>@libro.Precio</td>
                 <td>
-
                     @if (libro.Disponible)
                     {
-                        <spam class="badge bg-success">
-                            Disponible
-                        </spam>
+                        <span class="badge bg-success">Disponible</span>
                     }
                     else
                     {
-                        <spam class="badge bg-danger">
-                            Prestado
-                        </spam>
+                        <span class="badge bg-secondary">No disponible</span>
                     }
-
                 </td>
-
             </tr>
         }
-
     </tbody>
-
 </table>
