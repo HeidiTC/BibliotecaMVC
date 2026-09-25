@@ -4,11 +4,12 @@
     ViewData["Title"] = "Catálogo de Libros";
 }
 
-<h1>Catálogo de Libros</h1>
+<div class="d-flex justify-content-between align-items-center mb-3">
+    <h1 class="mb-0">Catálogo de Libros</h1>
+    <a asp-action="Create" class="btn btn-success">Nuevo Libro</a>
+</div>
 
-<a asp-action="Create" class="btn btn-success mb-3">Nuevo Libro</a>
-
-<table class="table">
+<table class="table table-striped align-middle">
     <thead>
         <tr>
             <th>ID</th>
@@ -17,6 +18,7 @@
             <th>Categoría</th>
             <th>Precio</th>
             <th>Estado</th>
+            <th>Acciones</th>
         </tr>
     </thead>
     <tbody>
@@ -38,7 +40,46 @@
                         <span class="badge bg-secondary">No disponible</span>
                     }
                 </td>
+                <td>
+                    <div class="d-flex gap-2">
+                        <a asp-action="Edit" asp-route-id="@libro.ID" class="btn btn-outline-primary btn-sm">
+                            Editar
+                        </a>
+
+                        <form asp-action="Delete"
+                              asp-route-id="@libro.ID"
+                              method="post"
+                              style="display:inline;"
+                              onsubmit="return confirmarEliminacion();">
+
+                            <button type="submit" class="btn btn-outline-danger btn-sm">
+                                Eliminar
+                            </button>
+                        </form>
+                    </div>
+                </td>
             </tr>
         }
     </tbody>
 </table>
+
+@section Scripts {
+    @if (TempData["SuccessMessage"] != null)
+    {
+        <script>
+            Swal.fire({
+                icon: 'success',
+                title: 'Éxito',
+                text: @Html.Raw(System.Text.Json.JsonSerializer.Serialize(TempData["SuccessMessage"])),
+                timer: 2000,
+                showConfirmButton: false
+            });
+        </script>
+    }
+
+    <script>
+        function confirmarEliminacion() {
+            return confirm("¿Está seguro de eliminar este libro?");
+        }
+    </script>
+}
