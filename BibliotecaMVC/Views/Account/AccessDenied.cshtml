@@ -1,0 +1,12 @@
+﻿@{
+    ViewData["Title"] = "Acceso denegado";
+}
+
+<!-- Vista que se muestra cuando el usuario no tiene el rol necesario -->
+<div class="text-center mt-5">
+    <h1 class="text-danger">Acceso denegado</h1>
+    <p>No tienes permisos suficientes para acceder a este recurso.</p>
+    <p class="text-muted">Si necesitas realizar esta operación, solicita el rol de Administrador.</p>
+    <a asp-controller="Home" asp-action="Index" class="btn btn-primary">Volver al inicio</a>
+    <a asp-controller="Libros" asp-action="Index" class="btn btn-outline-secondary">Ir a Libros</a>
+</div>

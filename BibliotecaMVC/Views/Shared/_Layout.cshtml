@@ -23,15 +23,19 @@
                         <li class="nav-item">
                             <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Inicio</a>
                         </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-controller="Categorias" asp-action="Index">Categorías</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-controller="Home" asp-action="Libros">Libros</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-controller="Autores" asp-action="Index">Autores</a>
-                        </li>
+                        @* Estas opciones solo se muestran si el usuario inició sesión *@
+                        @if (User.Identity?.IsAuthenticated == true)
+                        {
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" asp-controller="Categorias" asp-action="Index">Categorías</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" asp-controller="Libros" asp-action="Index">Libros</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" asp-controller="Autores" asp-action="Index">Autores</a>
+                            </li>
+                        }
                         <li class="nav-item">
                             <a class="nav-link text-dark" asp-controller="Home" asp-action="Usuarios">Usuarios</a>
                         </li>
@@ -47,7 +51,11 @@
                         @if (User.Identity?.IsAuthenticated == true)
                         {
                             <li class="nav-item">
-                                <span class="nav-link text-dark">Hola, @User.Identity.Name</span>
+                                <span class="nav-link text-dark">
+                                    Hola, @User.Identity.Name
+                                    <!-- Se muestra el rol del usuario -->
+                                    <span class="badge bg-secondary">@(User.IsInRole("Administrador") ? "Administrador" : "Usuario")</span>
+                                </span>
                             </li>
                             <li class="nav-item">
                                 <!-- Logout es POST, por eso va en un formulario y no en un enlace -->

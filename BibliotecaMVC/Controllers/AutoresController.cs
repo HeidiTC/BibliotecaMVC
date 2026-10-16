@@ -1,10 +1,12 @@
 ﻿using BibliotecaMVC.Data;
 using BibliotecaMVC.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
 namespace BibliotecaMVC.Controllers
 {
+    [Authorize] // solo usuarios con sesión iniciada
     public class AutoresController : Controller
     {
         private readonly BibliotecaContext _context;

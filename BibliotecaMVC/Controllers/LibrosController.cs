@@ -1,10 +1,13 @@
 ﻿using BibliotecaMVC.Data;
 using BibliotecaMVC.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
 namespace BibliotecaMVC.Controllers
 {
+    
+    [Authorize]
     public class LibrosController : Controller
     {
         private readonly BibliotecaContext _context;
@@ -21,12 +24,15 @@ namespace BibliotecaMVC.Controllers
             return View(libros);
         }
 
+        // Solo el Administrador puede crear libros
+        [Authorize(Roles = "Administrador")]
         public IActionResult Create()
         {
             return View();
         }
 
         [HttpPost]
+        [Authorize(Roles = "Administrador")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create(Libro libro)
         {
@@ -43,6 +49,8 @@ namespace BibliotecaMVC.Controllers
             return RedirectToAction(nameof(Index));
         }
 
+        // Solo el Administrador puede editar libros
+        [Authorize(Roles = "Administrador")]
         public async Task<IActionResult> Edit(int id)
         {
             var libro = await _context.Libros.FindAsync(id);
@@ -56,6 +64,7 @@ namespace BibliotecaMVC.Controllers
         }
 
         [HttpPost]
+        [Authorize(Roles = "Administrador")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, Libro libro)
         {
@@ -77,7 +86,9 @@ namespace BibliotecaMVC.Controllers
             return RedirectToAction(nameof(Index));
         }
 
+        // Solo el Administrador puede eliminar libros
         [HttpPost]
+        [Authorize(Roles = "Administrador")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Delete(int id)
         {

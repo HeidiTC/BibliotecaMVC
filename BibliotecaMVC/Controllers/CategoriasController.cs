@@ -1,9 +1,11 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using BibliotecaMVC.Models;
 using Microsoft.Data.SqlClient;
 
 namespace BibliotecaMVC.Controllers
 {
+    [Authorize] // solo usuarios con sesión iniciada
     public class CategoriasController : Controller
     {
         private readonly string _connectionString;

@@ -1,10 +1,11 @@
 using BibliotecaMVC.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 
 namespace BibliotecaMVC.Controllers
 {
-    // Controlador para manejar el registro, inicio y cierre de sesión de usuarios
+   
     public class AccountController : Controller
     {
         
@@ -17,45 +18,54 @@ namespace BibliotecaMVC.Controllers
             _userManager = userManager;
         }
 
-        // ===================== LOGIN ====================
-        // GET: /Account/Login -> muestra el formulario de login
+        
+        
         [HttpGet]
+        [AllowAnonymous]
         public IActionResult Login(string? returnUrl = null)
         {
             return View(new LoginViewModel { ReturnUrl = returnUrl });
         }
 
-        // POST: /Account/Login -> valida las credenciales y crea la cookie de sesión
+        
         [HttpPost]
+        [AllowAnonymous]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Login(LoginViewModel model)
         {
-            // Validamos que el modelo sea correcto (campos requeridos, etc.)
+            
             if (!ModelState.IsValid)
             {
                 return View(model);
             }
 
-            // Buscamos al usuario por nombre o correo electrónico
+            
             var user = await _userManager.FindByNameAsync(model.UserNameOrEmail)
                        ?? await _userManager.FindByEmailAsync(model.UserNameOrEmail);
 
             if (user != null)
             {
-                // Intentamos iniciar sesión con la contraseña proporcionada
+                
                 var result = await _signInManager.PasswordSignInAsync(
-                    user, model.Password, model.RememberMe, lockoutOnFailure: false);
+                    user, model.Password, model.RememberMe, lockoutOnFailure: true);
 
                 if (result.Succeeded)
                 {
-                    // Si hay una URL de retorno válida, redirigimos allí
+                    
                     if (!string.IsNullOrWhiteSpace(model.ReturnUrl) && Url.IsLocalUrl(model.ReturnUrl))
                     {
                         return Redirect(model.ReturnUrl);
                     }
 
-                    // Si no hay URL de retorno, redirigimos a la página principal
+                    
                     return RedirectToAction("Index", "Home");
+                }
+
+                
+                if (result.IsLockedOut)
+                {
+                    ModelState.AddModelError(string.Empty, "La cuenta está bloqueada temporalmente por demasiados intentos fallidos.");
+                    return View(model);
                 }
             }
 
@@ -64,17 +74,19 @@ namespace BibliotecaMVC.Controllers
             return View(model);
         }
 
-        // ===================== REGISTRO =====================
+       
 
         // GET: /Account/Register -> muestra el formulario de registro
         [HttpGet]
+        [AllowAnonymous]
         public IActionResult Register()
         {
             return View(new RegisterViewModel());
         }
 
-        // POST: /Account/Register -> crea el usuario en la tabla AspNetUsers
+        // POST: /Account/Register -> procesa el registro del usuario
         [HttpPost]
+        [AllowAnonymous]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Register(RegisterViewModel model)
         {
@@ -95,13 +107,16 @@ namespace BibliotecaMVC.Controllers
 
             if (result.Succeeded)
             {
-                // Iniciamos sesión de una vez con el usuario nuevo
+                
+                // Asignamos el rol "Usuario" al nuevo usuario
+                await _userManager.AddToRoleAsync(user, "Usuario");
+
                 await _signInManager.SignInAsync(user, isPersistent: false);
                 return RedirectToAction("Index", "Home");
             }
 
-            // Si Identity rechazó el registro (usuario repetido, contraseña débil, etc.)
-            // mostramos cada error en la vista
+            
+            // Si hubo errores, los agregamos al ModelState para mostrarlos en la vista
             foreach (var error in result.Errors)
             {
                 ModelState.AddModelError(string.Empty, error.Description);
@@ -110,15 +125,25 @@ namespace BibliotecaMVC.Controllers
             return View(model);
         }
 
-        // ===================== LOGOUT =====================
+       
 
-        // POST: /Account/Logout -> borra la cookie de sesión
+        // POST: /Account/Logout -> cierra la sesión del usuario
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Logout()
         {
             await _signInManager.SignOutAsync();
             return RedirectToAction("Index", "Home");
+        }
+    
+        
+
+        // GET: /Account/AccessDenied -> muestra la vista de acceso denegado
+        [HttpGet]
+        [AllowAnonymous]
+        public IActionResult AccessDenied()
+        {
+            return View();
         }
     }
 }
