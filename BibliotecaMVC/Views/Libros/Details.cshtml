@@ -1,0 +1,49 @@
+@model BibliotecaMVC.Models.Libro
+
+@{
+    ViewData["Title"] = "Detalle del Libro";
+
+    
+    var puedeModificar = User.IsInRole("Admin") || User.IsInRole("Bibliotecario");
+}
+
+<h1>Detalle del Libro</h1>
+
+<hr />
+
+<dl class="row">
+    <dt class="col-sm-3">ID</dt>
+    <dd class="col-sm-9">@Model.ID</dd>
+
+    <dt class="col-sm-3">Título</dt>
+    <dd class="col-sm-9">@Model.Titulo</dd>
+
+    <dt class="col-sm-3">Autor</dt>
+    <dd class="col-sm-9">@Model.Autor</dd>
+
+    <dt class="col-sm-3">Categoría</dt>
+    <dd class="col-sm-9">@Model.Categoria</dd>
+
+    <dt class="col-sm-3">Precio</dt>
+    <dd class="col-sm-9">@Model.Precio</dd>
+
+    <dt class="col-sm-3">Estado</dt>
+    <dd class="col-sm-9">
+        @if (Model.Disponible)
+        {
+            <span class="badge bg-success">Disponible</span>
+        }
+        else
+        {
+            <span class="badge bg-secondary">No disponible</span>
+        }
+    </dd>
+</dl>
+
+<div class="d-flex gap-2">
+    @if (puedeModificar)
+    {
+        <a asp-action="Edit" asp-route-id="@Model.ID" class="btn btn-primary">Editar</a>
+    }
+    <a asp-action="Index" class="btn btn-outline-secondary">Volver al listado</a>
+</div>

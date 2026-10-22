@@ -244,3 +244,61 @@ body {
             width: 100%;
         }
 }
+
+/* ===== LOGIN Y REGISTRO (Semana 11) ===== */
+.auth-contenedor {
+    display: flex;
+    justify-content: center;
+    padding: 30px 15px;
+}
+
+.auth-card {
+    width: 100%;
+    max-width: 440px;
+    border: none;
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+.auth-encabezado {
+    background: #1f4e78;
+    color: white;
+    text-align: center;
+    padding: 25px 20px;
+}
+
+    .auth-encabezado h1 {
+        font-size: 1.6rem;
+        margin-bottom: 5px;
+    }
+
+    .auth-encabezado p {
+        margin-bottom: 0;
+        opacity: 0.85;
+    }
+
+.auth-boton {
+    background: #1f4e78;
+    border-color: #1f4e78;
+    padding: 10px;
+}
+
+    .auth-boton:hover {
+        background: #163a5a;
+        border-color: #163a5a;
+    }
+
+/* El resumen de errores solo se pinta como alerta cuando SÍ hay errores */
+.validation-summary-errors {
+    background: #f8d7da;
+    border: 1px solid #f5c2c7;
+    border-radius: 6px;
+    padding: 10px 15px;
+    margin-bottom: 15px;
+}
+
+    .validation-summary-errors ul {
+        margin: 0;
+        padding-left: 18px;
+    }

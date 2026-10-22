@@ -1,12 +1,28 @@
 ﻿@model IEnumerable<BibliotecaMVC.Models.Libro>
 
 @{
-    
+    ViewData["Title"] = "Catálogo de Libros";
+
+    // Admin y Bibliotecario pueden agregar, editar y eliminar; Usuario solo consulta
+    var puedeModificar = User.IsInRole("Admin") || User.IsInRole("Bibliotecario");
 }
 
-<h2>Catálogo de Libros</h2>
+<div class="d-flex justify-content-between align-items-center mb-3">
+    <h1 class="mb-0">Catálogo de Libros</h1>
+    @if (puedeModificar)
+    {
+        <a asp-action="Create" class="btn btn-success">Nuevo Libro</a>
+    }
+</div>
 
-<table class="table table-striped">
+@if (!puedeModificar)
+{
+    <div class="alert alert-info">
+        Estás en modo consulta. Solo los roles <strong>Admin</strong> y <strong>Bibliotecario</strong> pueden agregar, editar o eliminar libros.
+    </div>
+}
+
+<table class="table table-striped align-middle">
     <thead>
         <tr>
             <th>ID</th>
@@ -15,45 +31,77 @@
             <th>Categoría</th>
             <th>Precio</th>
             <th>Estado</th>
+            <th>Acciones</th>
         </tr>
     </thead>
-
     <tbody>
-
         @foreach (var libro in Model)
         {
             <tr>
-
                 <td>@libro.ID</td>
-
                 <td>@libro.Titulo</td>
-
                 <td>@libro.Autor</td>
-
                 <td>@libro.Categoria</td>
-
-                <td>$ @libro.Precio</td>
-
+                <td>@libro.Precio</td>
                 <td>
-
                     @if (libro.Disponible)
                     {
-                        <spam class="badge bg-success">
-                            Disponible
-                        </spam>
+                        <span class="badge bg-success">Disponible</span>
                     }
                     else
                     {
-                        <spam class="badge bg-danger">
-                            Prestado
-                        </spam>
+                        <span class="badge bg-secondary">No disponible</span>
                     }
-
                 </td>
+                <td>
+                    <div class="d-flex gap-2">
+                        <!-- Detalles: lo ven los tres roles -->
+                        <a asp-action="Details" asp-route-id="@libro.ID" class="btn btn-outline-secondary btn-sm">
+                            Detalles
+                        </a>
 
+                        <!-- Editar y Eliminar: solo Admin y Bibliotecario -->
+                        @if (puedeModificar)
+                        {
+                        <a asp-action="Edit" asp-route-id="@libro.ID" class="btn btn-outline-primary btn-sm">
+                            Editar
+                        </a>
+
+                        <form asp-action="Delete"
+                              asp-route-id="@libro.ID"
+                              method="post"
+                              style="display:inline;"
+                              onsubmit="return confirmarEliminacion();">
+
+                            <button type="submit" class="btn btn-outline-danger btn-sm">
+                                Eliminar
+                            </button>
+                        </form>
+                        }
+                    </div>
+                </td>
             </tr>
         }
-
     </tbody>
-
 </table>
+
+@section Scripts {
+    @if (TempData["SuccessMessage"] != null)
+    {
+        <script>
+            Swal.fire({
+                icon: 'success',
+                title: 'Éxito',
+                text: @Html.Raw(System.Text.Json.JsonSerializer.Serialize(TempData["SuccessMessage"])),
+                timer: 2000,
+                showConfirmButton: false
+            });
+        </script>
+    }
+
+    <script>
+        function confirmarEliminacion() {
+            return confirm("¿Está seguro de eliminar este libro?");
+        }
+    </script>
+}
