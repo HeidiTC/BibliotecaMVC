@@ -1,12 +1,28 @@
 ﻿@{
     ViewData["Title"] = "Acceso denegado";
+
+    // Rol del usuario para mostrarlo en el mensaje (mismo criterio que el _Layout)
+    var rolActual = User.IsInRole("Admin") ? "Admin" : User.IsInRole("Bibliotecario") ? "Bibliotecario" : "Usuario";
 }
 
+<!-- Vista que se muestra cuando el usuario inició sesión pero no tiene el rol necesario -->
+<div class="auth-contenedor">
+    <div class="card auth-card aviso-card">
+        <div class="auth-encabezado">
+            <div class="aviso-icono">🔒</div>
+            <h1>Acceso denegado</h1>
+            <p>No tienes permiso para esta operación</p>
+        </div>
 
-<div class="text-center mt-5">
-    <h1 class="text-danger">Acceso denegado</h1>
-    <p>No tienes permisos suficientes para acceder a este recurso.</p>
-    <p class="text-muted">Si necesitas realizar esta operación, solicita el rol de Admin o Bibliotecario.</p>
-    <a asp-controller="Home" asp-action="Index" class="btn btn-primary">Volver al inicio</a>
-    <a asp-controller="Libros" asp-action="Index" class="btn btn-outline-secondary">Ir a Libros</a>
+        <div class="card-body p-4">
+            <p>
+                Tu usuario <strong>@(User.Identity?.Name)</strong> tiene el rol
+                <span class="badge bg-secondary">@rolActual</span>.
+                Agregar, editar o eliminar libros solo lo pueden hacer los roles <strong>Admin</strong> y <strong>Bibliotecario</strong>.
+            </p>
+
+            @* Vista parcial reutilizable con los botones de navegación *@
+            <partial name="_OpcionesNavegacion" />
+        </div>
+    </div>
 </div>

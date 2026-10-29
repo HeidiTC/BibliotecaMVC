@@ -10,12 +10,16 @@ namespace BibliotecaMVC.Controllers
     {
         
         private readonly SignInManager<IdentityUser> _signInManager; 
-        private readonly UserManager<IdentityUser> _userManager;     
+        private readonly UserManager<IdentityUser> _userManager;
 
-        public AccountController(SignInManager<IdentityUser> signInManager, UserManager<IdentityUser> userManager)
+        // Semana 15: logger para registrar los intentos de acceso sin permiso
+        private readonly ILogger<AccountController> _logger;
+
+        public AccountController(SignInManager<IdentityUser> signInManager, UserManager<IdentityUser> userManager, ILogger<AccountController> logger)
         {
             _signInManager = signInManager;
             _userManager = userManager;
+            _logger = logger;
         }
 
         
@@ -76,7 +80,7 @@ namespace BibliotecaMVC.Controllers
 
        
 
-        
+        // GET: /Account/Register -> muestra el formulario de registro
         [HttpGet]
         [AllowAnonymous]
         public IActionResult Register()
@@ -84,7 +88,7 @@ namespace BibliotecaMVC.Controllers
             return View(new RegisterViewModel());
         }
 
-        
+        // POST: /Account/Register -> procesa el registro del usuario
         [HttpPost]
         [AllowAnonymous]
         [ValidateAntiForgeryToken]
@@ -95,20 +99,20 @@ namespace BibliotecaMVC.Controllers
                 return View(model);
             }
 
-            
+            // Armamos el usuario con los datos del formulario
             var user = new IdentityUser
             {
                 UserName = model.UserName,
                 Email = model.Email
             };
 
-            
+            // CreateAsync guarda el usuario y la contraseña encriptada (hash)
             var result = await _userManager.CreateAsync(user, model.Password);
 
             if (result.Succeeded)
             {
                 
-                
+                // Asignamos el rol "Usuario" al nuevo usuario
                 await _userManager.AddToRoleAsync(user, "Usuario");
 
                 await _signInManager.SignInAsync(user, isPersistent: false);
@@ -116,7 +120,7 @@ namespace BibliotecaMVC.Controllers
             }
 
             
-            
+            // Si hubo errores, los agregamos al ModelState para mostrarlos en la vista
             foreach (var error in result.Errors)
             {
                 ModelState.AddModelError(string.Empty, error.Description);
@@ -127,7 +131,7 @@ namespace BibliotecaMVC.Controllers
 
        
 
-        
+        // POST: /Account/Logout -> cierra la sesión del usuario
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Logout()
@@ -138,11 +142,13 @@ namespace BibliotecaMVC.Controllers
     
         
 
-        
+        // GET: /Account/AccessDenied -> muestra la vista de acceso denegado
         [HttpGet]
         [AllowAnonymous]
-        public IActionResult AccessDenied()
+        public IActionResult AccessDenied(string? returnUrl = null)
         {
+            // returnUrl lo envía Identity y trae la ruta que el usuario intentó abrir
+            _logger.LogWarning("El usuario {Usuario} intentó acceder sin permisos a {Ruta}", User.Identity?.Name, returnUrl);
             return View();
         }
     }

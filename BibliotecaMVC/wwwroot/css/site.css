@@ -302,3 +302,19 @@ body {
         margin: 0;
         padding-left: 18px;
     }
+
+/* ===== PÁGINAS DE ERROR Y ACCESO DENEGADO (Semana 15) ===== */
+/* Se reutiliza la tarjeta del Login (auth-card), solo un poco más ancha */
+.aviso-card {
+    max-width: 520px;
+}
+
+.aviso-icono {
+    font-size: 2rem;
+    margin-bottom: 5px;
+}
+
+/* Mismo alto para los dos botones */
+.aviso-card .btn {
+    padding: 8px 14px;
+}
