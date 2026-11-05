@@ -139,10 +139,10 @@ namespace BibliotecaMVC.Controllers
             await _signInManager.SignOutAsync();
             return RedirectToAction("Index", "Home");
         }
-    
-        
 
-        // GET: /Account/AccessDenied -> muestra la vista de acceso denegado
+
+
+        // GET /Account/AccessDenied -> muestra la vista de acceso denegado
         [HttpGet]
         [AllowAnonymous]
         public IActionResult AccessDenied(string? returnUrl = null)
