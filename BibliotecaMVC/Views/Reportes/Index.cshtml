@@ -1,0 +1,82 @@
+﻿@model IEnumerable<BibliotecaMVC.Models.Libro>
+
+@{
+    ViewData["Title"] = "Reportes de Libros";
+
+    // Listas para los filtros (vienen del controlador)
+    var autores = ViewBag.Autores as List<string> ?? new List<string>();
+    var categorias = ViewBag.Categorias as List<string> ?? new List<string>();
+    var autorSeleccionado = ViewBag.AutorSeleccionado as string;
+    var categoriaSeleccionada = ViewBag.CategoriaSeleccionada as string;
+
+    // Cantidad de libros que saldrán en el reporte
+    var total = Model.Count();
+}
+
+<div class="d-flex justify-content-between align-items-center mb-3">
+    <h1 class="h3 mb-0">@ViewData["Title"] <small class="text-muted">(@total)</small></h1>
+    <a asp-controller="Libros" asp-action="Index" class="btn btn-outline-secondary">Volver al catálogo</a>
+</div>
+
+@* Mensaje de error si falla la generación de algún reporte *@
+@if (TempData["ErrorMessage"] != null)
+{
+    <div class="alert alert-danger">@TempData["ErrorMessage"]</div>
+}
+
+@* Un solo formulario GET: los filtros se envían a la acción del botón que se presione
+   (asp-action en un <button> genera el atributo formaction) *@
+<form method="get" asp-action="Index" class="card shadow-sm mb-4">
+    <div class="card-body">
+        <h5 class="card-title mb-3">Filtros del reporte</h5>
+
+        <div class="row g-3 align-items-end">
+            <div class="col-md-4">
+                <label for="autor" class="form-label">Autor</label>
+                <select id="autor" name="autor" class="form-select">
+                    <option value="">Todos los autores</option>
+                    @foreach (var nombre in autores)
+                    {
+                        <option value="@nombre" selected="@(nombre == autorSeleccionado)">@nombre</option>
+                    }
+                </select>
+            </div>
+
+            <div class="col-md-4">
+                <label for="categoria" class="form-label">Categoría</label>
+                <select id="categoria" name="categoria" class="form-select">
+                    <option value="">Todas las categorías</option>
+                    @foreach (var nombre in categorias)
+                    {
+                        <option value="@nombre" selected="@(nombre == categoriaSeleccionada)">@nombre</option>
+                    }
+                </select>
+            </div>
+
+            <div class="col-md-4 d-flex gap-2">
+                <button type="submit" asp-action="Index" class="btn btn-primary">Filtrar</button>
+                <a asp-action="Index" class="btn btn-outline-secondary">Limpiar</a>
+            </div>
+        </div>
+
+        <hr />
+
+        @* Botones de reportería *@
+        <div class="d-flex flex-wrap gap-2">
+            <!-- Abre el PDF en otra pestaña (sin descargar) -->
+            <button type="submit" asp-action="VerPdf" formtarget="_blank" class="btn btn-outline-danger">
+                Abrir reporte
+            </button>
+
+            <!-- Descarga el PDF -->
+            <button type="submit" asp-action="GenerarPdf" class="btn btn-danger">
+                Generar reporte PDF
+            </button>
+
+            <!-- Descarga el Excel -->
+            <button type="submit" asp-action="ExportarExcel" class="btn btn-success">
+                Exportar a Excel
+            </button>
+        </div>
+    </div>
+</form>

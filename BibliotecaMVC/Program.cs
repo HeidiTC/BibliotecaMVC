@@ -2,11 +2,14 @@ using BibliotecaMVC.Repositorios;
 using BibliotecaMVC.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Identity;
+using QuestPDF.Infrastructure;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Semana 15: carga el CSS y Bootstrap también cuando probamos el perfil "https (Produccion)"
-// desde Visual Studio (sin esta línea, en Producción local la página sale sin estilos)
+// licencia de QuestPDF
+QuestPDF.Settings.License = LicenseType.Community;
+
+// Se habilita el uso de archivos estáticos (css, js, imágenes) en el proyecto BibliotecaMVC    
 builder.WebHost.UseStaticWebAssets();
 
 // Configuración de la inyección de dependencias: repositorios y servicios

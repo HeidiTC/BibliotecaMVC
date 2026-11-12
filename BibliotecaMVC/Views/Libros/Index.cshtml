@@ -11,7 +11,25 @@
     <h1 class="mb-0">Catálogo de Libros</h1>
     @if (puedeModificar)
     {
-        <a asp-action="Create" class="btn btn-success">Nuevo Libro</a>
+        <div class="d-flex gap-2">
+            @* Semana 17: botones de reportería (igual que en la práctica de Autores) *@
+            <!-- Abre el PDF en otra pestaña (sin descargar) -->
+            <a class="btn btn-outline-danger" asp-controller="Reportes" asp-action="VerPdf" target="_blank" rel="noopener">
+                Abrir reporte
+            </a>
+
+            <!-- Descarga el PDF -->
+            <a class="btn btn-danger" asp-controller="Reportes" asp-action="GenerarPdf">
+                Generar reporte PDF
+            </a>
+
+            <!-- Descarga el Excel -->
+            <a class="btn btn-outline-success" asp-controller="Reportes" asp-action="ExportarExcel">
+                Exportar a Excel
+            </a>
+
+            <a asp-action="Create" class="btn btn-success">Nuevo Libro</a>
+        </div>
     }
 </div>
 
